@@ -16,7 +16,7 @@ export default function Home() {
   const schemaData = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    'name': 'BlobSense',
+    'name': 'BlobLens',
     'description': 'Real-time analytics platform for monitoring Ethereum blob transactions, rollup activity, and network metrics.',
     'url': 'https://blobsense.io',
     'applicationCategory': 'BusinessApplication',
@@ -433,7 +433,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="border-t border-border px-6 md:px-12 py-8 text-center text-sm text-foreground/50">
-          <p>© 2025 BlobSense. Real-time blob analytics and documentation platform for Ethereum rollups.</p>
+          <p>© 2025 BlobLens. Real-time blob analytics and documentation platform for Ethereum rollups.</p>
         </footer>
       </div>
     </DocLayout>
