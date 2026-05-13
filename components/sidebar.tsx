@@ -189,19 +189,6 @@ export function Sidebar() {
               </div>
             ))}
           </nav>
-
-          {/* Footer section */}
-          <div className="mt-12 pt-6 border-t border-sidebar-border">
-            <p className="text-xs text-sidebar-foreground/50 mb-3 px-2">
-              Questions?
-            </p>
-            <a
-              href="#market-and-research"
-              className="block text-xs text-sidebar-accent hover:text-sidebar-accent/80 transition-colors px-2"
-            >
-              See Market Notes →
-            </a>
-          </div>
         </div>
       </aside>
 

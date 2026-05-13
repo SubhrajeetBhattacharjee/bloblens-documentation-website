@@ -9,9 +9,31 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'BlobLens Docs',
-  description: 'BlobLens documentation and guides for blockchain analytics',
+  title: 'BlobSense - Real-time Blob Analytics & Documentation',
+  description: 'Interactive dashboards and comprehensive documentation for monitoring blob usage, costs, and market dynamics. Get real-time insights into Ethereum blob transactions, rollup activity, and network metrics with BlobSense.',
+  keywords: 'blob, analytics, Ethereum, rollups, documentation, real-time data, network metrics, blob costs',
   generator: 'v0.app',
+  openGraph: {
+    title: 'BlobSense - Real-time Blob Analytics',
+    description: 'Interactive dashboards for monitoring blob usage, costs, and market dynamics on Ethereum rollups.',
+    url: 'https://blobsense.io',
+    siteName: 'BlobSense',
+    images: [
+      {
+        url: '/Thumbnail_website.png',
+        width: 1200,
+        height: 630,
+        alt: 'BlobSense Real-time Blob Analytics Dashboard',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BlobSense - Real-time Blob Analytics',
+    description: 'Interactive dashboards for monitoring blob usage, costs, and market dynamics on Ethereum rollups.',
+    images: ['/Thumbnail_website.png'],
+  },
   icons: {
     icon: [
       {

@@ -1,14 +1,46 @@
+'use client';
+
 import Link from 'next/link';
 import { DocLayout } from '@/components/doc-layout';
 import { Header } from '@/components/header';
-import { ArrowRight, Zap, Database, TrendingUp, Compass, Rocket, LineChart, FlaskConical, HelpCircle } from 'lucide-react';
+import { ArrowRight, Zap, Database, TrendingUp, Compass, Rocket, LineChart, FlaskConical, HelpCircle, Copy } from 'lucide-react';
 import { Tooltip } from '@/components/ui/tooltip';
 import { MarketLiveMetrics, ResearchLiveSummary } from '@/components/live-metrics';
 
 export default function Home() {
+  const copyToClipboard = (sectionId: string) => {
+    const url = `${window.location.origin}#${sectionId}`;
+    navigator.clipboard.writeText(url);
+  };
+
+  const schemaData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'BlobSense',
+    'description': 'Real-time analytics platform for monitoring Ethereum blob transactions, rollup activity, and network metrics.',
+    'url': 'https://blobsense.io',
+    'applicationCategory': 'BusinessApplication',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'USD'
+    },
+    'featureList': [
+      'Real-time blob transaction data',
+      'Market analytics and trends',
+      'Rollup ecosystem monitoring',
+      'Historical data research',
+      'Fee and cost analysis'
+    ]
+  };
+
   return (
-    <DocLayout>
-      <div className="min-h-screen flex flex-col">
+    <>
+      <script type="application/ld+json">
+        {JSON.stringify(schemaData)}
+      </script>
+      <DocLayout>
+        <div className="min-h-screen flex flex-col">
         <Header />
 
         <section id="overview" className="page-section scroll-mt-24 flex-1 px-6 md:px-12 py-20 md:py-24 max-w-5xl mx-auto w-full border-b border-border/50">
@@ -19,10 +51,20 @@ export default function Home() {
           </div>
 
           <div className="flex items-start gap-4">
-            <div>
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-2 text-text-balance">
-                Real-time Blob <span className="text-accent">Analytics</span>
-              </h1>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-2 text-text-balance">
+                  Real-time Blob <span className="text-accent">Analytics</span>
+                </h1>
+                <Tooltip tip="Copy link to this section">
+                  <button
+                    onClick={() => copyToClipboard('overview')}
+                    className="text-foreground/60 hover:text-accent transition-colors"
+                  >
+                    <Copy className="w-5 h-5" />
+                  </button>
+                </Tooltip>
+              </div>
               <p className="text-lg text-foreground/70 mb-4 max-w-2xl leading-relaxed">
                 Interactive dashboards that show blob usage, costs, and market signals — designed to help teams make data-driven decisions quickly.
               </p>
@@ -95,9 +137,7 @@ export default function Home() {
                 <span className="text-xs font-semibold text-foreground/60">24h · USD / blob</span>
               </div>
               <h3 className="text-lg font-semibold mb-4">Historical Blob Cost</h3>
-              <div className="image-placeholder h-48 flex items-center justify-center text-foreground/40 text-sm rounded">
-                Line chart: blob cost over time (24h view)
-              </div>
+              <img src="/overview_historicalblobcost.png" alt="Historical Blob Cost" className="w-full h-48 rounded object-cover" />
               <p className="text-xs text-foreground/50 mt-3">Shows cost per blob throughout the past 24 hours. Use this to identify peak fee periods and cost trends.</p>
             </div>
 
@@ -106,9 +146,7 @@ export default function Home() {
                 <span className="text-xs font-semibold text-foreground/60">Last Hour Average</span>
               </div>
               <h3 className="text-lg font-semibold mb-4">Current Transaction Cost</h3>
-              <div className="image-placeholder h-48 flex items-center justify-center text-foreground/40 text-sm rounded">
-                Gauge: current cost meter with colored zones (cheap/normal/expensive)
-              </div>
+              <img src="/overview_currentfee.png" alt="Current Transaction Cost" className="w-full h-48 rounded object-cover" />
               <p className="text-xs text-foreground/50 mt-3">Real-time gauge showing whether blob costs are currently cheap, normal, or expensive based on recent activity.</p>
             </div>
           </div>
@@ -133,9 +171,7 @@ export default function Home() {
               Tip: watch the "Cost / Blob" column to see how expensive storing data is over time. Combine this with the heatmap and charts to understand if costs are trending up or down.
             </p>
 
-            <div className="mt-6 image-placeholder flex items-center justify-center text-foreground/50">
-              Placeholder: Live Feed table / screenshot
-            </div>
+            <img src="/overview_livefeed.png" alt="Live Feed" className="w-full rounded object-cover mt-6" />
           </div>
 
           <div id="overview-metrics" className="mt-10 page-section">
@@ -151,21 +187,21 @@ export default function Home() {
               <div>
                 <div className="rounded-lg border border-border p-4 bg-card">
                   <h4 className="font-semibold mb-2">Total Blobs — 30d</h4>
-                  <div className="image-placeholder" />
+                  <img src="/overview_totalblobs.png" alt="Total Blobs" className="w-full rounded object-cover" />
                 </div>
               </div>
 
               <div>
                 <div className="rounded-lg border border-border p-4 bg-card">
                   <h4 className="font-semibold mb-2">Rollup Share</h4>
-                  <div className="image-placeholder" />
+                  <img src="/overview_rollupshare.png" alt="Rollup Share" className="w-full rounded object-cover" />
                 </div>
               </div>
             </div>
 
             <div className="mt-6 rounded-lg border border-border p-4 bg-card">
               <h4 className="font-semibold mb-2">Cost Heatmap — 7d × 24h</h4>
-              <div className="image-placeholder" />
+              <img src="/overview_costuptime.png" alt="Cost Heatmap" className="w-full rounded object-cover" />
             </div>
           </div>
 
@@ -279,98 +315,75 @@ export default function Home() {
         </section>
 
         <section id="market" className="page-section scroll-mt-24 px-6 md:px-12 py-16 max-w-5xl mx-auto w-full border-b border-border/50">
-          <div className="flex items-center gap-3 mb-4">
-            <LineChart className="w-6 h-6 text-accent" />
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Market</h2>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <LineChart className="w-6 h-6 text-accent" />
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Market</h2>
+            </div>
+            <Tooltip tip="Copy link to this section">
+              <button
+                onClick={() => copyToClipboard('market')}
+                className="text-foreground/60 hover:text-accent transition-colors"
+              >
+                <Copy className="w-5 h-5" />
+              </button>
+            </Tooltip>
           </div>
           <p className="text-foreground/70 max-w-3xl mb-8 leading-relaxed">
             Real-time market signals, fee trends, and blob demand metrics. Monitor volatility, utilization patterns, and network dynamics to inform operational decisions.
           </p>
 
-          <div id="market-metrics" className="page-section mt-8">
-            <h3 className="text-xl font-semibold mb-4">Key Metrics</h3>
-            <MarketLiveMetrics />
-          </div>
-
           <div id="market-trends" className="page-section mt-10">
             <h3 className="text-xl font-semibold mb-4">Fee Trends</h3>
+            <p className="text-foreground/70 mb-6">Monitor fee patterns and pricing cycles to understand when it's best to submit blob transactions. The trend chart shows historical fee movements over the past week, while the heatmap reveals peak cost periods across different times of day and day of week.</p>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="rounded-lg border border-border p-6 bg-card">
                 <h4 className="font-semibold mb-4">Blob Base Fee Trend</h4>
-                <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                  Placeholder: Fee trend line chart (7d)
-                </div>
+                <img src="/market_blobbasefeetrend.png" alt="Blob Base Fee Trend" className="w-full rounded object-cover" />
               </div>
               <div className="rounded-lg border border-border p-6 bg-card">
                 <h4 className="font-semibold mb-4">Regime Heatmap — 7d × 24h</h4>
-                <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                  Placeholder: Fee regime heatmap
-                </div>
+                <img src="/market_regimeheatmap.png" alt="Regime Heatmap" className="w-full rounded object-cover" />
               </div>
             </div>
           </div>
 
-          <div id="market-utilization" className="page-section mt-10">
-            <h3 className="text-xl font-semibold mb-4">Utilization & Activity</h3>
-            <div className="space-y-6">
-              <div className="rounded-lg border border-border p-6 bg-card">
-                <h4 className="font-semibold mb-4">Blob Slot Utilization</h4>
-                <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                  Placeholder: Multi-line utilization chart (7d)
-                </div>
-              </div>
-              <div className="rounded-lg border border-border p-6 bg-card">
-                <h4 className="font-semibold mb-4">Blob Activity by Rollup (24h)</h4>
-                <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                  Placeholder: Stacked area chart by rollup
-                </div>
-              </div>
-              <div className="rounded-lg border border-border p-6 bg-card">
-                <h4 className="font-semibold mb-4">Blobs per Block</h4>
-                <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                  Placeholder: Bar chart (24h distribution)
-                </div>
-              </div>
+          <div id="market-activity" className="page-section mt-10">
+            <h3 className="text-xl font-semibold mb-4">Network Activity</h3>
+            <p className="text-foreground/70 mb-6">See which rollups are actively submitting blobs and understand their contribution to overall network activity. This helps identify dominant players in the blob ecosystem and track shifting usage patterns.</p>
+            <div className="rounded-lg border border-border p-6 bg-card">
+              <h4 className="font-semibold mb-4">Blob Activity by Rollup (24h)</h4>
+              <img src="/market_blobactivitybyrollup.png" alt="Blob Activity by Rollup" className="w-full rounded object-cover" />
             </div>
           </div>
 
-          <div className="mt-10 rounded-lg border border-border p-6 bg-secondary/30">
-            <h4 className="font-semibold mb-2">Fee Comparison Forecast</h4>
-            <p className="text-sm text-foreground/70 mb-4">Predicted fee trends based on current network conditions and historical patterns:</p>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-foreground/70">Next 1 hour:</span>
-                <span className="text-accent font-semibold">$0.00425 gwei</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-foreground/70">Next 3 hours:</span>
-                <span className="text-accent font-semibold">$0.00412 gwei</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-foreground/70">Next 6 hours:</span>
-                <span className="text-accent font-semibold">$0.00398 gwei</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-foreground/70">Next 12 hours:</span>
-                <span className="text-accent font-semibold">$0.00391 gwei</span>
-              </div>
+          <div id="market-ecosystem" className="page-section mt-10">
+            <h3 className="text-xl font-semibold mb-4">Rollup Ecosystem Map</h3>
+            <p className="text-foreground/70 mb-6">Visualize the complete rollup ecosystem and understand the relationships between different rollup solutions, their market share, and their blob utilization patterns. This comprehensive map provides a high-level view of the blob landscape.</p>
+            <div className="rounded-lg border border-border p-6 bg-card">
+              <img src="/market_rollupecosystemmap.png" alt="Rollup Ecosystem Map" className="w-full rounded object-cover" />
             </div>
           </div>
         </section>
 
         <section id="research" className="page-section scroll-mt-24 px-6 md:px-12 py-16 max-w-5xl mx-auto w-full border-b border-border/50">
-          <div className="flex items-center gap-3 mb-4">
-            <FlaskConical className="w-6 h-6 text-accent" />
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Research</h2>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <FlaskConical className="w-6 h-6 text-accent" />
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Research</h2>
+            </div>
+            <Tooltip tip="Copy link to this section">
+              <button
+                onClick={() => copyToClipboard('research')}
+                className="text-foreground/60 hover:text-accent transition-colors"
+              >
+                <Copy className="w-5 h-5" />
+              </button>
+            </Tooltip>
           </div>
           <p className="text-foreground/70 max-w-3xl mb-8 leading-relaxed">
             Long-horizon blob economics: how usage grows, how different rollups behave over time, and what the market signals are telling us. This section is meant to be readable for non-technical users while still giving enough depth for analysis.
           </p>
-
-          <div id="research-summary" className="page-section mt-8">
-            <h3 className="text-xl font-semibold mb-4">Research Summary</h3>
-            <ResearchLiveSummary />
-          </div>
 
           <div id="research-growth" className="page-section mt-10">
             <h3 className="text-xl font-semibold mb-4">Cumulative Blob Growth</h3>
@@ -378,31 +391,7 @@ export default function Home() {
               <p className="text-foreground/70 mb-4">
                 The line chart below shows how blob usage rises over time. A steady slope means adoption is expanding smoothly; sharp jumps often indicate release cycles, new rollup launches, or changes in fee incentives.
               </p>
-              <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                Placeholder: 7-day cumulative growth chart
-              </div>
-            </div>
-          </div>
-
-          <div id="research-share" className="page-section mt-10">
-            <h3 className="text-xl font-semibold mb-4">Rollup Market Share</h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="rounded-lg border border-border p-6 bg-card">
-                <p className="text-foreground/70 mb-4">
-                  This donut chart shows which rollups account for the most blob activity. The biggest segment usually reflects the primary app or network currently driving demand.
-                </p>
-                <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                  Placeholder: 30-day market share donut
-                </div>
-              </div>
-              <div className="rounded-lg border border-border p-6 bg-card">
-                <p className="text-foreground/70 mb-4">
-                  Use market share to compare concentration. If one rollup dominates, the ecosystem may be more dependent on a single application; if the chart is balanced, usage is more distributed.
-                </p>
-                <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                  Placeholder: supporting share comparison chart
-                </div>
-              </div>
+              <img src="/research_cumulativeblobgrowth.png" alt="Cumulative Blob Growth" className="w-full rounded object-cover" />
             </div>
           </div>
 
@@ -412,21 +401,17 @@ export default function Home() {
               <p className="text-foreground/70 mb-4">
                 This chart breaks down total blob volume by rollup across the last 30 days. It helps answer a simple question: which rollups are consistently active, and which ones spike only occasionally?
               </p>
-              <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                Placeholder: stacked bar chart by rollup
-              </div>
+              <img src="/research_dailyblobvolumebyrollup.png" alt="Daily Blob Volume by Rollup" className="w-full rounded object-cover" />
             </div>
           </div>
 
-          <div id="research-regime" className="page-section mt-10">
-            <h3 className="text-xl font-semibold mb-4">Market Regime Timeline</h3>
+          <div id="research-utilization" className="page-section mt-10">
+            <h3 className="text-xl font-semibold mb-4">Blob Slot Utilization</h3>
             <div className="rounded-lg border border-border p-6 bg-card">
               <p className="text-foreground/70 mb-4">
-                Regime timelines show when the market was calm, busy, or under pressure. This is useful for spotting patterns around launches, updates, and fee spikes.
+                Slot utilization shows how full the blob space is over time. When utilization is high, it indicates strong demand and potentially higher fees. When it drops, it suggests less network congestion or decreased interest in blob transactions.
               </p>
-              <div className="image-placeholder flex items-center justify-center text-foreground/50">
-                Placeholder: 30-day regime timeline
-              </div>
+              <img src="/research_slotutilization.png" alt="Slot Utilization" className="w-full rounded object-cover" />
             </div>
           </div>
 
@@ -448,9 +433,10 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="border-t border-border px-6 md:px-12 py-8 text-center text-sm text-foreground/50">
-          <p>© 2025 BlobLens. Documentation for blockchain analytics.</p>
+          <p>© 2025 BlobSense. Real-time blob analytics and documentation platform for Ethereum rollups.</p>
         </footer>
       </div>
     </DocLayout>
+    </>
   );
 }
